@@ -2,10 +2,12 @@ package com.lucascouto.ClientProject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucascouto.ClientProject.dto.ClientDTO;
@@ -19,8 +21,14 @@ public class ClientController {
 	private ClientService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ClientDTO>> findAll(Pageable pageable) {
-		Page<ClientDTO> clients = service.findAll(pageable);
+	public ResponseEntity<Page<ClientDTO>> findAll(
+			@RequestParam(defaultValue = "0") Integer page, 
+			@RequestParam(defaultValue = "12") Integer linesPerPage, 
+			@RequestParam(defaultValue = "ASC") String direction, 
+			@RequestParam(defaultValue = "name") String orderBy
+		) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Page<ClientDTO> clients = service.findAll(pageRequest);
 		return ResponseEntity.ok().body(clients);
 	}
 
