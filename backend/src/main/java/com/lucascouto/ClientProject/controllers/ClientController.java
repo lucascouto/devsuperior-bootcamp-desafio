@@ -46,24 +46,4 @@ public class ClientController {
 		ClientDTO client = service.create(clientDto);
 		return ResponseEntity.created(null).body(client);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
