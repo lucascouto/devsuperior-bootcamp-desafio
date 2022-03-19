@@ -19,5 +19,10 @@ public class ClientService {
 		Page<Client> clients = repository.findAll(pageable);
 		return clients.map(client -> new ClientDTO(client));
 	}
+
+	public ClientDTO findById(Long id) {
+		Client client = repository.findById(id).get();
+		return new ClientDTO(client);
+	}
 	
 }
