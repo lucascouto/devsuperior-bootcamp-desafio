@@ -1,5 +1,7 @@
 package com.lucascouto.ClientProject.controllers;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucascouto.ClientProject.dto.ClientDTO;
 import com.lucascouto.ClientProject.services.ClientService;
@@ -44,6 +47,13 @@ public class ClientController {
 	@PostMapping
 	public ResponseEntity<ClientDTO> create(@RequestBody ClientDTO clientDto) {
 		ClientDTO client = service.create(clientDto);
-		return ResponseEntity.created(null).body(client);
+		
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(client.getId())
+				.toUri();
+		
+		return ResponseEntity.created(uri).body(client);
 	}
 }
