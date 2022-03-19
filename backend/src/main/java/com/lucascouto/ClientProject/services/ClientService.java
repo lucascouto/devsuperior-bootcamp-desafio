@@ -48,7 +48,7 @@ public class ClientService {
 	public ClientDTO update(ClientDTO clientDto, Long id) {
 
 		try {
-			Client client = repository.getById(id);
+			Client client = repository.getOne(id);
 			copyClientDtoToClient(clientDto, client);
 			client = repository.save(client);
 
